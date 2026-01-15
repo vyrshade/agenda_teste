@@ -260,7 +260,7 @@ export default function Scheduling() {
               value={value}
               onChangeText={handleValue}
               keyboardType="number-pad"
-              placeholder="Ex: 5000 (para 50,00)"
+              placeholder="Ex: 50,00"
               placeholderTextColor="#999"
               style={styles.textInput}
               returnKeyType="next"

@@ -19,6 +19,31 @@ export default function Login() {
   const [resetEmail, setResetEmail] = useState('');
   const [resetLoading, setResetLoading] = useState(false);
 
+  const formatPhoneNumber = (text: string) => {
+    const cleaned = text.replace(/\D/g, '');
+    const match = cleaned.substring(0, 11);
+
+    if (match.length === 0) return '';
+
+    if (match.length <= 2) {
+      return `(${match}`;
+    }
+    if (match.length <= 7) {
+      return `(${match.slice(0, 2)}) ${match.slice(2)}`;
+    }
+    return `(${match.slice(0, 2)}) ${match.slice(2, 7)}-${match.slice(7)}`;
+  };
+
+  const handleInputChange = (text: string) => {
+    const isEmail = /[a-zA-Z@]/.test(text);
+
+    if (isEmail) {
+      setEmail(text);
+    } else {
+      setEmail(formatPhoneNumber(text));
+    }
+  };
+
   const resolveEmailForLogin = async (identifier: string) => {
     const trimmed = identifier.trim();
     if (trimmed.includes('@')) return trimmed; 
@@ -136,11 +161,12 @@ export default function Login() {
                     placeholder="Digite seu e-mail ou telefone"
                     placeholderTextColor="#999"
                     value={email}
-                    onChangeText={setEmail}
+                    onChangeText={handleInputChange}
                     autoCapitalize="none"
                     keyboardType="email-address"
                     accessibilityLabel="E-mail ou telefone"
                     editable={!loading}
+                    maxLength={/[a-zA-Z@]/.test(email) ? 256 : 15}
                   />
                 </View>
               </View>
